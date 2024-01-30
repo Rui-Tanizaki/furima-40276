@@ -13,7 +13,8 @@
 
 
 ### Association
-- has_many :items , :orders
+- has_many :user_items
+- belong_to :order
 
 ## itemsテーブル
 
@@ -25,8 +26,7 @@
 | user       | references | null: false, foreign_key: true |
 
 ### Association
-- has_one :order
-- belongs_to :user
+- has_many :user_items
 
 ## ordersテーブル
 
@@ -41,4 +41,13 @@
 | user               | references | null: false, foreign_key: true |
 
 ### Association
+- belongs_to :user
+
+## user_itemsテーブル
+
+| Column   | Type    | Options                        |
+| -------- | ------- | ------------------------------ |
+| user_id  | integer | null: false ,foreignkey: true  | 
+| items_id | integer | null: false ,foreignkey: true  |
+
 - belongs_to :user , :item
