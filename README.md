@@ -24,7 +24,7 @@
 | item_price                  | integer    | null: false                    |
 | item_category_id            | integer    | null: false                    | 
 | item_sales_status_id        | integer    | null: false                    |
-| item_shipping-fee_status_id | integer    | null: false                    |
+| item_shipping_fee_status_id | integer    | null: false                    |
 | prefecture_id               | integer    | null: false                    |
 | item_scheduled_delivery_id  | integer    | null: false                    |
 | user                        | references | null: false, foreign_key: true |
