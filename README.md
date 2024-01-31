@@ -30,7 +30,7 @@
 | user                        | references | null: false, foreign_key: true |
 
 ### Association
-- belongs_to :user_item
+- has_one :user_item
 - belongs_to :user
 
 ## ordersテーブル
@@ -41,9 +41,9 @@
 | prefecture_id       | integer    | null: false                    |
 | order_city          | string     | null: false                    |
 | order_address       | string     | null: false                    |
-| order_building      | string     | null: false                    |
+| order_building      | string     |                                |
 | order_phone_number  | string     | null: false                    |
-| user                | references | null: false, foreign_key: true |
+| user_item           | references | null: false, foreign_key: true |
 
 ### Association
 - belongs_to :user_item
