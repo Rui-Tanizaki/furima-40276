@@ -1,15 +1,17 @@
 ## usersテーブル
 
-| Column             | Type       | Options                   |
-| ------------------ | ---------- | ------------------------- |
-| email              | string     | null: false, unique: true |
-| encrypted_password | string     | null: false               |
-| nickname           | string     | null: false               |
-| name_first_kanji   | string     | null: false               |
-| name_first_kana    | string     | null: false               | 
-| name_last_kanji    | string     | null: false               |
-| name_last_kana     | string     | null: false               |
-| birth_date         | date       | null: false               |
+| Column             | Type       | Options                        |
+| ------------------ | ---------- | ------------------------------ |
+| email              | string     | null: false, unique: true      |
+| encrypted_password | string     | null: false                    |
+| nickname           | string     | null: false                    |
+| name_first_kanji   | string     | null: false                    |
+| name_first_kana    | string     | null: false                    | 
+| name_last_kanji    | string     | null: false                    |
+| name_last_kana     | string     | null: false                    |
+| birth_date         | date       | null: false                    |
+| items              | references | null: false, foreign_key: true |
+| user_items         | references | null: false, foreign_key: true |
 
 
 ### Association
@@ -29,6 +31,7 @@
 | item_prefecture_id          | integer    | null: false                    |
 | item_scheduled-delivery_id  | integer    | null: false                    |
 | user                        | references | null: false, foreign_key: true |
+| user_items                  | references | null: false, foreign_key: true |
 
 ### Association
 - has_one :user_item
@@ -47,14 +50,16 @@
 | user_items         | references | null: false, foreign_key: true |
 
 ### Association
-- belongs_to :user
+- has_one :user_item
 
 ## user_itemsテーブル
 
-| Column | Type       | Options                         |
-| ------ | ---------- | ------------------------------- |
-| user   | references | null: false, foreign_key: true  | 
-| item   | references | null: false, foreign_key: true  |
+| Column | Type       | Options                        |
+| ------ | ---------- | ------------------------------ |
+| user   | references | null: false, foreign_key: true | 
+| item   | references | null: false, foreign_key: true |
+| order  | references | null: false, foreign_key: true |
 
 - belongs_to :user
 - belongs_to :item
+- belongs_to :order
