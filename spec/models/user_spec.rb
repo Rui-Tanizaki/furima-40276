@@ -40,7 +40,7 @@ RSpec.describe User, type: :model do
         expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Name first kanji can't be blank"
       end 
-      it 'name_first_kanjiには全角漢字が入力されている' do
+      it 'name_first_kanjiには全角文字が入力されている' do
         expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Name first kanji is invalid. Input full-width characters"
       end
@@ -116,17 +116,12 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include "Name first kanji can't be blank"
       end
-      it 'name_first_kanjiには全角漢字でない場合は登録出来ない' do
-        @user.name_first_kanji = "ヤマダ"
-        @user.valid?
-        expect(@user.errors.full_messages).to include "Name first kanji is invalid. Input full-width characters"
-      end
-      it 'name_first_kanjiには全角漢字でない場合は登録出来ない' do
+      it 'name_first_kanjiには全角文字でない場合は登録出来ない' do
         @user.name_first_kanji = "aaa"
         @user.valid?
         expect(@user.errors.full_messages).to include "Name first kanji is invalid. Input full-width characters"
       end
-      it 'name_first_kanjiには全角漢字でない場合は登録出来ない' do
+      it 'name_first_kanjiには全角文字でない場合は登録出来ない' do
         @user.name_first_kanji = "123"
         @user.valid?
         expect(@user.errors.full_messages).to include "Name first kanji is invalid. Input full-width characters"
@@ -156,17 +151,12 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include "Name last kanji can't be blank"
       end
-      it 'name_last_kanjiには全角漢字でない場合は登録出来ない' do
-        @user.name_last_kanji = "ヤマダ"
-        @user.valid?
-        expect(@user.errors.full_messages).to include "Name last kanji is invalid. Input full-width characters"
-      end
-      it 'name_last_kanjiには全角漢字でない場合は登録出来ない' do
+      it 'name_last_kanjiには全角文字でない場合は登録出来ない' do
         @user.name_last_kanji = "aaa"
         @user.valid?
         expect(@user.errors.full_messages).to include "Name last kanji is invalid. Input full-width characters"
       end
-      it 'name_last_kanjiには全角漢字でない場合は登録出来ない' do
+      it 'name_last_kanjiには全角文字でない場合は登録出来ない' do
         @user.name_last_kanji = "123"
         @user.valid?
         expect(@user.errors.full_messages).to include "Name last kanji is invalid. Input full-width characters"
