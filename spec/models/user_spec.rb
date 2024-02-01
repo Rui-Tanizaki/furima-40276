@@ -8,52 +8,52 @@ RSpec.describe User, type: :model do
   describe 'ユーザー新規登録' do
     context '新規登録できるとき' do
       it 'nicknameが入力されている' do
-        @user.valid?
+        expect(@user).to be_valid
         expect(@user.errors[:nickname]).to_not include("can't be blank")
       end
       it 'emailが入力されている' do
-        @user.valid?
+        expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Email can't be blank"
       end 
       it 'emailは重複したemailが存在していない' do
         @user.email = "newtest12345@email.com"
-        @user.valid?
+        expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Email has already been taken"
       end
       it 'passwordが空ではない' do
-        @user.valid?
+        expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Password can't be blank"
       end  
       it 'passwordが6文字以上入力されている' do
-        @user.valid?
+        expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Password is too short (minimum is 6 characters)"
       end  
       it 'passwordには英字・数字が両方含まれている' do
-        @user.valid?
+        expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Password is invalid. Include both letters and numbers"
       end 
       it 'passwordとpassword_confirmationが一致している' do
-        @user.valid?
+        expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Password confirmation doesn't match Password"
       end
       it 'name_first_kanjiが空ではない' do
-        @user.valid?
+        expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Name first kanji can't be blank"
       end 
       it 'name_first_kanjiには全角漢字が入力されている' do
-        @user.valid?
+        expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Name first kanji is invalid. Input full-width characters"
       end
       it 'name_first_kanaが空ではない' do
-        @user.valid?
+        expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Name first kana can't be blank"
       end
       it 'name_first_kanaには全角カタカナが入力されている' do
-        @user.valid?
+        expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Name first kana is invalid. Input full-width katakana characters"
       end
       it 'birth_dateが空ではない' do
-        @user.valid?
+        expect(@user).to be_valid
         expect(@user.errors.full_messages).to_not include "Birth date can't be blank"
       end
     end
@@ -80,6 +80,11 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include "Password confirmation doesn't match Password"
       end
+      it 'メールアドレスに@を含まない場合は登録できない' do
+        @user.email = "testemail.com"
+        @user.valid?
+        expect(@user.errors.full_messages).to include "Email is invalid"
+      end
       it '重複したemailが存在する場合は登録できない' do
         existing_user = FactoryBot.create(:user, email: "test@email.com")
         @user.email = "test@email.com"
@@ -98,6 +103,11 @@ RSpec.describe User, type: :model do
       end
       it 'passwordには英字・数字両方が含まれていないと登録出来ない' do
         @user.password = "123456"
+        @user.valid?
+        expect(@user.errors.full_messages).to include "Password is invalid. Include both letters and numbers"
+      end
+      it 'passwordに全角文字が入力されている場合は登録出来ない' do
+        @user.password = "ｔｅｓｔ１２３４"
         @user.valid?
         expect(@user.errors.full_messages).to include "Password is invalid. Include both letters and numbers"
       end
