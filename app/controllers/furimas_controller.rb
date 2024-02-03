@@ -3,7 +3,6 @@ class FurimasController < ApplicationController
 
   def index
     @items = Item.order(created_at: :desc)
-    @dummy_item = Item.new
   end
 
   def new
