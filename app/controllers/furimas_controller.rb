@@ -8,12 +8,6 @@ class FurimasController < ApplicationController
   end
 
   def create
-    if current_user.nil?
-      flash[:alert] = "ログインしてください。"
-      redirect_to new_user_session_path
-      return
-    end
-
     @item = Item.new(item_params.merge(user_id: current_user.id))
     if @item.save
       redirect_to root_path

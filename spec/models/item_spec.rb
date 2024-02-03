@@ -14,7 +14,7 @@ RSpec.describe Item, type: :model do
     end
 
     context '商品が出品できないとき' do
-      it 'ログアウト状態では出品ができない' do
+      it 'ユーザーが紐づいていない場合は登録できない' do
         @item = FactoryBot.build(:item, user: nil)
         @item.valid?
         expect(@item.errors.full_messages).to include('User must exist')
