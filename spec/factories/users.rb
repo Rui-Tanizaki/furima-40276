@@ -9,6 +9,5 @@ FactoryBot.define do
     name_last_kana {"タロウ"}
     name_first_kana {"ヤマダ"}
     birth_date { Faker::Date.birthday(min_age: 18, max_age: 65).to_date }
-
   end
 end

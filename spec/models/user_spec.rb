@@ -9,7 +9,7 @@ RSpec.describe User, type: :model do
     context '新規登録できるとき' do
       it 'nicknameが入力されている' do
         expect(@user).to be_valid
-        expect(@user.errors[:nickname]).to_not include("can't be blank")
+        expect(@user.errors.full_messages).to_not include("can't be blank")
       end
       it 'emailが入力されている' do
         expect(@user).to be_valid
