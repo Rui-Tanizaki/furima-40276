@@ -1,6 +1,9 @@
 class FurimasController < ApplicationController
-  before_action :authenticate_user!,except: [:index]
+  before_action :authenticate_user!, except: [:index]
+
   def index
+    @items = Item.order(created_at: :desc)
+    @dummy_item = Item.new
   end
 
   def new
