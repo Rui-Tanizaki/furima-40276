@@ -4,11 +4,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const profitElement = document.getElementById('profit');
 
   function updateValues() {
-    // 入力された金額を取得
     const itemPrice = parseFloat(itemPriceInput.value);
 
     if (isNaN(itemPrice)) {
-      // クリア時の処理
       addTaxPriceElement.textContent = '';
       profitElement.textContent = '';
       return;
