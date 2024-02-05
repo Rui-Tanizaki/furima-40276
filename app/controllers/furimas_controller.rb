@@ -1,6 +1,6 @@
 class FurimasController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_item, only: [:edit, :update]
+  before_action :set_item, only: [:edit, :update, :destroy]
 
   def index
     @items = Item.order(created_at: :desc)
@@ -38,6 +38,15 @@ class FurimasController < ApplicationController
       redirect_to furima_path(@item)
     else
       render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if current_user != @item.user
+      redirect_to root_path
+    else
+      @item.destroy
+      redirect_to root_path
     end
   end
 
