@@ -5,7 +5,7 @@ class Item < ApplicationRecord
 
   extend ActiveHash::Associations::ActiveRecordExtensions
 
-  validates :image, presence: true
+  validates :image, presence: true, unless: -> { new_record? }
   validates :item_name, presence: true
   validates :item_info, presence: true
   validates :item_category_id, numericality: { other_than: 1, message: "can't be blank" }
