@@ -79,13 +79,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_06_084948) do
   end
 
   create_table "user_items", charset: "utf8", force: :cascade do |t|
-    t.integer "price", null: false
-    t.bigint "user_id", null: false
-    t.bigint "item_id", null: false
+    t.string "nickname"
+    t.string "item_name"
+    t.integer "price"
+    t.bigint "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_user_items_on_item_id"
-    t.index ["user_id"], name: "index_user_items_on_user_id"
+    t.index ["order_id"], name: "index_user_items_on_order_id"
   end
 
   create_table "users", charset: "utf8", force: :cascade do |t|
@@ -111,6 +111,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_06_084948) do
   add_foreign_key "items", "users"
   add_foreign_key "orders", "items"
   add_foreign_key "orders", "users"
-  add_foreign_key "user_items", "items"
-  add_foreign_key "user_items", "users"
+  add_foreign_key "user_items", "orders"
 end

@@ -12,6 +12,7 @@
 | birth_date         | date       | null: false                    |
 
 ### Association
+- has_many :orders
 - has_many :user_items
 - has_many :items
 
@@ -44,17 +45,21 @@
 | order_building      | string     |                                |
 | order_phone_number  | string     | null: false                    |
 | user_item           | references | null: false, foreign_key: true |
+| user                | references | null: false, foreign_key: true |
+| item                | references | null: false, foreign_key: true |
 
 ### Association
-- belongs_to :user_item
+- belongs_to :user
+- belongs_to :item
+- has_one :user_item
 
 ## user_itemsテーブル
 
-| Column | Type       | Options                        |
-| ------ | ---------- | ------------------------------ |
-| user   | references | null: false, foreign_key: true | 
-| item   | references | null: false, foreign_key: true |
+| Column    | Type       | Options                        |
+| --------- | ---------- | ------------------------------ |
+| nickname  | string     | null: false                    | 
+| item_name | string     | null: false                    |
+| price     | integer    | null: false                    |
+| order     | references | null: false, foreign_key: true |
 
-- belongs_to :user
-- belongs_to :item
-- has_one :order
+- belongs_to :order

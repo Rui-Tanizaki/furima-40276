@@ -25,7 +25,8 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     @order.user = current_user 
     @order.item = Item.find(params[:furima_id]) 
-    if @order.save
+    if @order.save  
+      create_user_item
       pay_item
       @order.item.update(sold_out: true) 
       return redirect_to root_path
@@ -40,22 +41,26 @@ class OrdersController < ApplicationController
 
   def pay_item
     Payjp.api_key  = ENV["PAYJP_SECRET_KEY"] 
-    puts "API Key: #{ENV["PAYJP_SECRET_KEY"]}"
     begin
       charge = Payjp::Charge.create(
         amount: @order.item.item_price,
         card: order_params[:token],
         currency: 'jpy'
       )
-    rescue Payjp::PayjpError => e
-      Rails.logger.error("Payjp API Error: #{e.message}")
-      Rails.logger.error("Payjp API Error Response: #{e.response.inspect}") if e.respond_to?(:response)
-      raise e  
     end
   end
 
+  def create_user_item
+    user_item_params = {
+      nickname: current_user.nickname,
+      item_name: @order.item.item_name,
+      price: @order.item.item_price
+    }
+    UserItem.create(user_item_params.merge(order_id: @order.id))  
+  end
+
   def user_items_params
-    params.permit(:price).merge(user_id: current_user.id)
+    params.permit(:nickname,:item_name,:price).merge(order_id: @order.id)
   end
   
   def order_params

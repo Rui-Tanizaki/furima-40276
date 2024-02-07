@@ -11,14 +11,20 @@ RSpec.describe Order, type: :model do
         expect(@order).to be_valid
         expect(@order.errors.full_messages).to_not include "can't be blank"
       end
-    end
+
+      it '建物名に入力がされていなくても購入できる' do
+        @order_order_building = ""
+        expect(@order).to be_valid
+        expect(@order.errors.full_messages).to_not include "can't be blank"
+      end
+    end      
 
     context '商品が購入できないとき' do
       it 'tokenが空では購入できない' do
         @order.token = nil
         @order.valid?
         expect(@order.errors.full_messages).to include("Token can't be blank")
-      end
+      end     
 
       it 'order_postcodeが空では購入できない' do
         @order.order_postcode = ""
@@ -57,16 +63,33 @@ RSpec.describe Order, type: :model do
       end
 
       it 'order_phone_numberが9文字以下では購入できない' do
-        @order.order_phone_number = ""
+        @order.order_phone_number = "000000000"
         @order.valid?
         expect(@order.errors.full_messages).to include("Order phone number is too short")
       end
-      
+
+      it 'order_phone_numberが9文字以下では購入できない' do
+        @order.order_phone_number = "000000000000"
+        @order.valid?
+        expect(@order.errors.full_messages).to include("Order phone number is too short")
+      end
       it 'order_phone_numberが半角数字以外では購入できない' do 
         @order.order_phone_number = ""
         @order.valid?
         expect(@order.errors.full_messages).to include("Order phone number is invalid. Input only number")
-      end      
+      end
+      
+      it 'user_idが空だと購入できない' do
+        @order.user_id = 0
+        @order.valid?
+        expect(@order.errors.full_messages).to include("User must exist")
+      end
+      
+      it 'item_idが空だと購入できない' do
+        @order.item_id = 0
+        @order.valid?
+        expect(@order.errors.full_messages).to include("Item must exist")
+      end
     end
   end
 end
