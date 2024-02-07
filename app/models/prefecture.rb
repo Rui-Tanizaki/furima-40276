@@ -50,6 +50,10 @@ class Prefecture < ActiveHash::Base
     { id: 48, name: '沖縄県' },
   ]
 
+  def self.find_by_id(id)
+    find(id)
+  end
+
   include ActiveHash::Associations
   has_many :articles
 end

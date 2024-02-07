@@ -27,6 +27,10 @@ class FurimasController < ApplicationController
   def edit
     @item = Item.find(params[:id])
     
+    if @item.sold_out?
+      redirect_to root_path
+    end
+
     if current_user != @item.user
       redirect_to root_path
     else

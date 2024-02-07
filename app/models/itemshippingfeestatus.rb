@@ -5,6 +5,10 @@ class Itemshippingfeestatus < ActiveHash::Base
     { id: 3, name: '送料込み(出品者負担)' },
   ]
 
+  def self.find_by_id(id)
+    find(id)
+  end
+
   include ActiveHash::Associations
-  has_many :articles
+  has_many :items
 end

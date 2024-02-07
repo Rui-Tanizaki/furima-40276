@@ -9,6 +9,10 @@ class Itemsalesstatus < ActiveHash::Base
     { id: 7, name: '全体的に状態が悪い' },
   ]
 
+  def self.find_by_id(id)
+    find(id)
+  end
+
   include ActiveHash::Associations
   has_many :articles
 end
