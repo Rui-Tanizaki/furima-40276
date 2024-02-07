@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
-  #has_one :user_item 購入機能時に使用の為、コメントアウトしています。
+  has_one :item
+  has_one :user_item
   belongs_to :user
   has_one_attached :image
 
