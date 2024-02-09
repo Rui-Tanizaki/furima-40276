@@ -22,13 +22,8 @@ class OrdersController < ApplicationController
     @item_order = ItemOrder.new(item_order_params)
     if @item_order.valid?
       pay_item
-      item = @item_order.save
-      binding.pry
-      if @user_item_id == @order.item_id
-        @order.item.update(sold_out: true) 
-        redirect_to root_path
-      else
-      end
+      @item_order.save
+      redirect_to root_path
 
     else
       puts @item_order.errors.full_messages
@@ -42,12 +37,11 @@ class OrdersController < ApplicationController
   private
 
   def pay_item
-    @order = Order.new
-    @order.user_item = UserItem.find_by(item_id: params[:furima_id], user_id: current_user.id)
+    @item = Item.find(params[:furima_id]) 
     Payjp.api_key  = ENV["PAYJP_SECRET_KEY"] 
     begin
       charge = Payjp::Charge.create(
-        amount: @order.item.item_price,
+        amount: @item.item_price,
         card: @item_order.token,
         currency: 'jpy'
       )

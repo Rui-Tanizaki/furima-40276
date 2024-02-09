@@ -4,8 +4,7 @@ class FurimasController < ApplicationController
 
   def index
     @items = Item.order(created_at: :desc)
-    @item = @items.first
-    @user_item = UserItem.find_by(item_id: @item.id, user_id: current_user.id)
+    @user_items = UserItem.where(item_id: @items.pluck(:id))
   end
 
   def new
@@ -23,8 +22,9 @@ class FurimasController < ApplicationController
   end
 
   def show
+    @item = Item.new
     @item = Item.find(params[:id])
-    @user_item = UserItem.find_by(item_id: @item.id, user_id: current_user.id)
+    @user_item = UserItem.find_by(item_id: @item.id)
   end
 
   def edit
