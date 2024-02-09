@@ -134,7 +134,7 @@
               <%= link_to furima_path(item) do %>
                 <div class="item-img-content">
                   <%= image_tag url_for(item.image), class: "item-img" %>
-                  <% if item.sold_out? %>
+                  <% if @user_item.item_id.present? %> 
                   <div class='sold-out'>
                      <span class='sold-out-text'>Sold Out!!</span>
                   </div>

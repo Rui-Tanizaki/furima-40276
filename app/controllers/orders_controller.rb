@@ -1,13 +1,14 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
 
+  def new
+    @item_order = ItemOrder.new
+  end
+
   def index
-    puts "API Key: #{ENV["PAYJP_SECRET_KEY"]}"
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
-    item_id = params[:item_id]
-    @item = Item.find(item_id)
-    @order = Order.new
-  
+    @item = Item.find(params[:furima_id]) 
+    @item_order = ItemOrder.new
     if @item.sold_out?
       redirect_to root_path
     elsif current_user == @item.user
@@ -16,55 +17,50 @@ class OrdersController < ApplicationController
     end
   end
 
-  def show
-    @item = Item.find(params[:id])
-  end
-
   def create
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
-    @order = Order.new(order_params)
-    @order.user = current_user 
-    @order.item = Item.find(params[:furima_id]) 
-    if @order.save  
-      create_user_item
+    @item_order = ItemOrder.new(item_order_params)
+    if @item_order.valid?
       pay_item
-      @order.item.update(sold_out: true) 
-      return redirect_to root_path
+      item = @item_order.save
+      binding.pry
+      if @user_item_id == @order.item_id
+        @order.item.update(sold_out: true) 
+        redirect_to root_path
+      else
+      end
+
     else
+      puts @item_order.errors.full_messages
       gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
       @item = Item.find(params[:furima_id]) 
       render :index, status: :unprocessable_entity
+      
     end
   end
 
   private
 
   def pay_item
+    @order = Order.new
+    @order.user_item = UserItem.find_by(item_id: params[:furima_id], user_id: current_user.id)
     Payjp.api_key  = ENV["PAYJP_SECRET_KEY"] 
     begin
       charge = Payjp::Charge.create(
         amount: @order.item.item_price,
-        card: order_params[:token],
+        card: @item_order.token,
         currency: 'jpy'
       )
     end
   end
 
-  def create_user_item
-    user_item_params = {
-      nickname: current_user.nickname,
-      item_name: @order.item.item_name,
-      price: @order.item.item_price
-    }
-    UserItem.create(user_item_params.merge(order_id: @order.id))  
-  end
-
-  def user_items_params
-    params.permit(:nickname,:item_name,:price).merge(order_id: @order.id)
+  def user_item_params
+    params.permit(:user_id, :item_id)
   end
   
-  def order_params
-    params.require(:order).permit(:order_postcode, :prefecture_id, :order_city, :order_address, :order_building, :order_phone_number).merge(token: params[:token])
+  def item_order_params
+    params.require(:item_order).permit(
+    :order_postcode, :prefecture_id, :order_city, :order_address, :order_building, :order_phone_number
+    ).merge(user_id: current_user.id, item_id: params[:furima_id], token: params[:token])
   end
-
 end
