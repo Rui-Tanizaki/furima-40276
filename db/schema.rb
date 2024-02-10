@@ -39,14 +39,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_07_093140) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "articles", charset: "utf8", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "text", null: false
-    t.integer "genre_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "items", charset: "utf8", force: :cascade do |t|
     t.string "item_name", null: false
     t.text "item_info", null: false
@@ -56,7 +48,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_07_093140) do
     t.integer "item_shipping_fee_status_id", null: false
     t.integer "prefecture_id", null: false
     t.integer "item_scheduled_delivery_id", null: false
-    t.boolean "sold_out", default: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
