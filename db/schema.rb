@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_06_084948) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_07_093140) do
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,14 +39,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_06_084948) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "articles", charset: "utf8", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "text", null: false
-    t.integer "genre_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "items", charset: "utf8", force: :cascade do |t|
     t.string "item_name", null: false
     t.text "item_info", null: false
@@ -68,20 +60,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_06_084948) do
     t.integer "prefecture_id", null: false
     t.string "order_city", null: false
     t.string "order_address", null: false
-    t.string "order_building", null: false
+    t.string "order_building"
     t.string "order_phone_number", null: false
-    t.bigint "user_id", null: false
-    t.bigint "item_id", null: false
+    t.bigint "user_item_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_orders_on_item_id"
-    t.index ["user_id"], name: "index_orders_on_user_id"
+    t.index ["user_item_id"], name: "index_orders_on_user_item_id"
   end
 
   create_table "user_items", charset: "utf8", force: :cascade do |t|
-    t.integer "price", null: false
-    t.bigint "user_id", null: false
     t.bigint "item_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_user_items_on_item_id"
@@ -109,8 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_06_084948) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "items", "users"
-  add_foreign_key "orders", "items"
-  add_foreign_key "orders", "users"
+  add_foreign_key "orders", "user_items"
   add_foreign_key "user_items", "items"
   add_foreign_key "user_items", "users"
 end
