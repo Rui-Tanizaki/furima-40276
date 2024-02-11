@@ -12,7 +12,6 @@
 | birth_date         | date       | null: false                    |
 
 ### Association
-- has_many :orders
 - has_many :user_items
 - has_many :items
 

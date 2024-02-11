@@ -22,7 +22,6 @@ class FurimasController < ApplicationController
   end
 
   def show
-    @item = Item.new
     @item = Item.find(params[:id])
     @user_item = UserItem.find_by(item_id: @item.id)
   end

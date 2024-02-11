@@ -1,13 +1,9 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
 
-  def new
-    @item_order = ItemOrder.new
-  end
-
   def index
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
-    @item = Item.find(params[:furima_id]) 
+    item_params
     @item_order = ItemOrder.new
     if @item.sold_out?
       redirect_to root_path
@@ -18,7 +14,6 @@ class OrdersController < ApplicationController
   end
 
   def create
-    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @item_order = ItemOrder.new(item_order_params)
     if @item_order.valid?
       pay_item
@@ -28,7 +23,7 @@ class OrdersController < ApplicationController
     else
       puts @item_order.errors.full_messages
       gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
-      @item = Item.find(params[:furima_id]) 
+      item_params
       render :index, status: :unprocessable_entity
       
     end
@@ -37,7 +32,7 @@ class OrdersController < ApplicationController
   private
 
   def pay_item
-    @item = Item.find(params[:furima_id]) 
+    item_params
     Payjp.api_key  = ENV["PAYJP_SECRET_KEY"] 
     begin
       charge = Payjp::Charge.create(
@@ -46,6 +41,10 @@ class OrdersController < ApplicationController
         currency: 'jpy'
       )
     end
+  end
+
+  def item_params
+    @item = Item.find(params[:furima_id])
   end
 
   def user_item_params

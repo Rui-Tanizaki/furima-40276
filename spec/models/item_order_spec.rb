@@ -70,6 +70,12 @@ RSpec.describe ItemOrder, type: :model do
         expect(@item_order.errors.full_messages).to include("Order phone number is too short")
       end
 
+      it 'order_phone_numberが12文字以上では購入できない' do
+        @item_order.order_phone_number = "123456789101"
+        @item_order.valid?
+        expect(@item_order.errors.full_messages).to include("Order phone number is too long")
+      end
+
       it 'order_phone_numberが半角数字以外では購入できない' do 
         @item_order.order_phone_number = "９９９９９９９９９９９"
         @item_order.valid?

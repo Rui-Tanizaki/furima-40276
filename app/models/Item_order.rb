@@ -13,6 +13,8 @@ class ItemOrder
     validates :order_phone_number, length: { minimum: 10, maximum: 11, message: "is too short" }, format: { with: /\A\d+\z/, message: "is invalid. Input only number" }
   end
 
+    validate :validate_phone_number_length
+
   def save
     user_item = UserItem.create(
       user_id: user_id,
@@ -29,5 +31,12 @@ class ItemOrder
       user_item_id: user_item.id
     )
   
+  end
+
+  private
+  def validate_phone_number_length
+    if order_phone_number.length >= 12
+      errors.add(:order_phone_number, "is too long")
+    end
   end
 end
