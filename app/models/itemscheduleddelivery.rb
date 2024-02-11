@@ -6,6 +6,10 @@ class Itemscheduleddelivery < ActiveHash::Base
     { id: 4, name: '4~7日で発送' },
   ]
 
+  def self.find_by_id(id)
+    find(id)
+  end
+
   include ActiveHash::Associations
   has_many :articles
 end

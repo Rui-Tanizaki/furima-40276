@@ -4,6 +4,7 @@ class FurimasController < ApplicationController
 
   def index
     @items = Item.order(created_at: :desc)
+    @user_items = UserItem.where(item_id: @items.pluck(:id))
   end
 
   def new
@@ -22,11 +23,16 @@ class FurimasController < ApplicationController
 
   def show
     @item = Item.find(params[:id])
+    @user_item = UserItem.find_by(item_id: @item.id)
   end
 
   def edit
     @item = Item.find(params[:id])
     
+    if @item.sold_out?
+      redirect_to root_path
+    end
+
     if current_user != @item.user
       redirect_to root_path
     else

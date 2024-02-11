@@ -127,13 +127,18 @@
       新規投稿商品
     </div>
     <ul class='item-lists'>
-
       <% if @items.present? %>
         <ul class='item-lists'>
           <% @items.each do |item| %>
             <li class='list'>
               <%= link_to furima_path(item) do %>
-                <%= image_tag url_for(item.image), class: "item-img" %>
+                <div class="item-img-content">
+                  <%= image_tag url_for(item.image), class: "item-img" %>
+                  <% if @user_items.exists?(item_id: item.id) %>
+                  <div class='sold-out'>
+                     <span class='sold-out-text'>Sold Out!!</span>
+                  </div>
+                <% end %>
                 <div class='item-info'>
                   <h3 class='item-name'>
                     <%= item.item_name %>

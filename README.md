@@ -46,15 +46,17 @@
 | user_item           | references | null: false, foreign_key: true |
 
 ### Association
-- belongs_to :user_item
+  belongs_to :user_item
+  has_one :user
+  has_one :item
 
 ## user_itemsテーブル
 
-| Column | Type       | Options                        |
-| ------ | ---------- | ------------------------------ |
-| user   | references | null: false, foreign_key: true | 
-| item   | references | null: false, foreign_key: true |
+| Column    | Type       | Options                        |
+| --------- | ---------- | ------------------------------ |
+| user      | string     | null: false                    | 
+| item      | string     | null: false                    |
 
-- belongs_to :user
-- belongs_to :item
-- has_one :order
+  belongs_to :user
+  belongs_to :item
+  has_one :order
