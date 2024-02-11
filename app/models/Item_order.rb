@@ -21,18 +21,29 @@ class ItemOrder
       item_id: item_id,
     )
   
-    Order.create(
-      order_postcode: order_postcode,
-      prefecture_id: prefecture_id,
-      order_city: order_city,
-      order_address: order_address,
-      order_building: order_building,
-      order_phone_number: order_phone_number,
-      user_item_id: user_item.id
-    )
-  
-  end
+    if user_item.persisted?
+      order = Order.create(
+        order_postcode: order_postcode,
+        prefecture_id: prefecture_id,
+        order_city: order_city,
+        order_address: order_address,
+        order_building: order_building,
+        order_phone_number: order_phone_number,
+        user_item_id: user_item.id
+      )
 
+      unless order.persisted?
+        # Order.create が失敗した場合、エラーをログに出力
+        errors.merge!(order.errors)
+        Rails.logger.error("Order.create failed with errors: #{order.errors.full_messages}")
+        return false
+      end
+    else
+      errors.merge!(user_item.errors)
+      return false
+    end
+  end
+  
   private
   def validate_phone_number_length
     if order_phone_number.length >= 12

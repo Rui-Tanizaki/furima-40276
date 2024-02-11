@@ -1,6 +1,3 @@
 class Order < ApplicationRecord
-  belongs_to :user
-  belongs_to :item
-  has_one :user_item
-  attr_accessor :token
+  belongs_to :user_item
 end
