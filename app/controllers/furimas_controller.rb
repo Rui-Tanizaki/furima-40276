@@ -28,15 +28,12 @@ class FurimasController < ApplicationController
 
   def edit
     @item = Item.find(params[:id])
-    
-    if @item.sold_out?
-      redirect_to root_path
-    end
 
-    if current_user != @item.user
-      redirect_to root_path
-    else
-    end
+    redirect_to root_path if @item.sold_out?
+
+    return unless current_user != @item.user
+
+    redirect_to root_path
   end
 
   def update
@@ -63,6 +60,7 @@ class FurimasController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:image, :item_name, :item_info, :item_price, :item_category_id, :item_sales_status_id, :item_shipping_fee_status_id, :prefecture_id, :item_scheduled_delivery_id)
+    params.require(:item).permit(:image, :item_name, :item_info, :item_price, :item_category_id, :item_sales_status_id,
+                                 :item_shipping_fee_status_id, :prefecture_id, :item_scheduled_delivery_id)
   end
 end

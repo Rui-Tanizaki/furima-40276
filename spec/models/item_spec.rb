@@ -21,19 +21,19 @@ RSpec.describe Item, type: :model do
       end
 
       it 'imageが空では登録できない' do
-        @item = FactoryBot.build(:item, image: nil)        
+        @item = FactoryBot.build(:item, image: nil)
         @item.valid?
         expect(@item.errors.full_messages).to include("Image can't be blank")
       end
-        
+
       it 'item_nameが空では登録できない' do
-        @item.item_name = ""
+        @item.item_name = ''
         @item.valid?
         expect(@item.errors.full_messages).to include "Item name can't be blank"
       end
 
       it 'item_infoが空では登録できない' do
-        @item.item_info = ""
+        @item.item_info = ''
         @item.valid?
         expect(@item.errors.full_messages).to include "Item info can't be blank"
       end
@@ -67,7 +67,7 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include "Item scheduled delivery can't be blank"
       end
-      
+
       it 'item_priceが空では登録できない' do
         @item.item_price = nil
         @item.valid?
@@ -75,21 +75,21 @@ RSpec.describe Item, type: :model do
       end
 
       it 'item_priceが半角数字以外では登録できない' do
-        @item.item_price = "３００"
+        @item.item_price = '３００'
         @item.valid?
-        expect(@item.errors.full_messages).to include "Item price is not a number"
+        expect(@item.errors.full_messages).to include 'Item price is not a number'
       end
 
       it 'item_priceが300円未満では登録できない' do
-        @item.item_price = "299"
+        @item.item_price = '299'
         @item.valid?
-        expect(@item.errors.full_messages).to include "Item price must be greater than or equal to 300"
+        expect(@item.errors.full_messages).to include 'Item price must be greater than or equal to 300'
       end
 
       it 'item_priceが9_999_999円を超えると登録できない' do
-        @item.item_price = "10_000_000"
+        @item.item_price = '10_000_000'
         @item.valid?
-        expect(@item.errors.full_messages).to include "Item price must be less than or equal to 9999999"
+        expect(@item.errors.full_messages).to include 'Item price must be less than or equal to 9999999'
       end
     end
   end

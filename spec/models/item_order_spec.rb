@@ -15,7 +15,7 @@ RSpec.describe ItemOrder, type: :model do
       end
 
       it '建物名に入力がされていなくても購入できる' do
-        @item_order.order_building = ""
+        @item_order.order_building = ''
         expect(@item_order).to be_valid
         expect(@item_order.errors.full_messages).to_not include "can't be blank"
       end
@@ -27,17 +27,17 @@ RSpec.describe ItemOrder, type: :model do
         @item_order.valid?
         expect(@item_order.errors.full_messages).to include("Token can't be blank")
       end
-      
+
       it 'order_postcodeが空では購入できない' do
-        @item_order.order_postcode = ""
+        @item_order.order_postcode = ''
         @item_order.valid?
         expect(@item_order.errors.full_messages).to include("Order postcode can't be blank")
       end
 
       it 'order_postcodeは3桁-4桁の半角数字以外では購入できない' do
-        @item_order.order_postcode = "0000000"
+        @item_order.order_postcode = '0000000'
         @item_order.valid?
-        expect(@item_order.errors.full_messages).to include("Order postcode is invalid. Enter it as follows (e.g. 123-4567)")
+        expect(@item_order.errors.full_messages).to include('Order postcode is invalid. Enter it as follows (e.g. 123-4567)')
       end
 
       it 'prefecture_idが初期値では購入できない' do
@@ -47,51 +47,51 @@ RSpec.describe ItemOrder, type: :model do
       end
 
       it 'order_cityが空では購入できない' do
-        @item_order.order_city = ""
+        @item_order.order_city = ''
         @item_order.valid?
         expect(@item_order.errors.full_messages).to include("Order city can't be blank")
       end
 
       it 'order_addressが空では購入できない' do
-        @item_order.order_address = ""
+        @item_order.order_address = ''
         @item_order.valid?
         expect(@item_order.errors.full_messages).to include("Order address can't be blank")
       end
 
       it 'order_phone_numberが空では購入できない' do
-        @item_order.order_phone_number = ""
+        @item_order.order_phone_number = ''
         @item_order.valid?
         expect(@item_order.errors.full_messages).to include("Order phone number can't be blank")
       end
 
       it 'order_phone_numberが9文字以下では購入できない' do
-        @item_order.order_phone_number = "000000000"
+        @item_order.order_phone_number = '000000000'
         @item_order.valid?
-        expect(@item_order.errors.full_messages).to include("Order phone number is too short")
+        expect(@item_order.errors.full_messages).to include('Order phone number is too short')
       end
 
       it 'order_phone_numberが12文字以上では購入できない' do
-        @item_order.order_phone_number = "123456789101"
+        @item_order.order_phone_number = '123456789101'
         @item_order.valid?
-        expect(@item_order.errors.full_messages).to include("Order phone number is too long")
+        expect(@item_order.errors.full_messages).to include('Order phone number is too long')
       end
 
-      it 'order_phone_numberが半角数字以外では購入できない' do 
-        @item_order.order_phone_number = "９９９９９９９９９９９"
+      it 'order_phone_numberが半角数字以外では購入できない' do
+        @item_order.order_phone_number = '９９９９９９９９９９９'
         @item_order.valid?
-        expect(@item_order.errors.full_messages).to include("Order phone number is invalid. Input only number")
+        expect(@item_order.errors.full_messages).to include('Order phone number is invalid. Input only number')
       end
 
-      it 'user_idが空では購入できない'do
+      it 'user_idが空では購入できない' do
         @item_order.user_id = nil
         @item_order.valid?
         expect(@item_order.errors.full_messages).to include("User can't be blank")
       end
 
-      it 'item_idが空では購入できない'do
-      @item_order.item_id = nil
-      @item_order.valid?
-      expect(@item_order.errors.full_messages).to include("Item can't be blank")
+      it 'item_idが空では購入できない' do
+        @item_order.item_id = nil
+        @item_order.valid?
+        expect(@item_order.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
