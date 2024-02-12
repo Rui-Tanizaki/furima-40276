@@ -11,11 +11,13 @@ RSpec.describe ItemOrder, type: :model do
     context '商品が購入できるとき' do
       it '全ての値が正しく入力されている' do
         expect(@item_order).to be_valid
+        expect(@item_order.errors.full_messages).to_not include "can't be blank"
       end
 
       it '建物名に入力がされていなくても購入できる' do
         @item_order.order_building = ""
         expect(@item_order).to be_valid
+        expect(@item_order.errors.full_messages).to_not include "can't be blank"
       end
     end
 
